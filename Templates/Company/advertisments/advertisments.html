@@ -1,0 +1,96 @@
+{% extends 'Company/company-base.html'%}
+
+{% block content%}
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Advertisments</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'admin-dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">New Post Advertisment</li>
+      </ol>
+    </nav>
+
+  </div><!-- End Page Title -->
+
+  <section class="section add-agent">
+    {% if messages %}
+    {% for mess in messages %}
+
+    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+      {{mess}}
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="row">
+      <div class="row justify-content-center">
+        <div class="col-lg-6 d-flex flex-column align-items-center justify-content-center">
+          <div class="card mb-5">
+            <div class="card-body">
+              <h5 class="card-title text-center pb-0 fs-4">New Post Advertisment</h5>
+              <form class="row g-3 needs-validation" novalidate action="{% url 'post_advertisment' %}" method="POST"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <label for="product_name" class="form-label">Product name</label>
+                  <input type="text" name="product_name" id="product_name" class="form-control" required>
+                  <div class="invalid-feedback">Please enter product name!</div>
+                </div>
+
+
+                <div class="col-md-12">
+                  <textarea class="form-control" name="description" id="description" rows="6"
+                    placeholder="product description" required></textarea>
+                </div>
+
+
+
+
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <label for="product_photo" class="form-label">Photo</label>
+                  <input type="file" name="product_photo" class="form-control" id="product_photo">
+                  <div class="invalid-feedback">Please upload photo!</div>
+                </div>
+
+
+
+                <hr class="mb-4">
+                <div class="col-12">
+                  <button id="add_driver" class="btn btn-warning w-100" type="submit">Post</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        {{name}}
+
+        <!-- List group with Links and buttons -->
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Advertisments</h5>
+              {% if adds%}
+              {% for add in adds%}
+
+              <div class="list-group">
+                <a href="{% url 'add_ditel' add.id %}" type="button" class="list-group-item list-group-item-action"
+                  aria-current="true">
+                  {{add.product_name}}
+                </a>
+              </div><!-- End List group with Links and buttons -->
+
+
+              {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+{% endblock %}

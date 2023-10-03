@@ -1,0 +1,42 @@
+{% extends 'Company/finance/home.html' %}
+{% load static %}
+{% block table %}
+          <div class="row">
+            
+            <div class="card recent-sales overflow-auto">
+              <h5 class="card-title">Approved orders History</h5>
+              <table class="table table-border datatable" id="approval_history_tbl">
+                <thead>
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Agent</th>
+                    <th scope="col">Order Code</th>
+                    <th scope="col">Total paid</th>
+                    <th scope="col">Approval Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for transaction in all_tranaction %}
+                  {% if transaction.Agent_order_id.status == 'Approved' %}
+                  <tr> 
+                    <td>{{transaction.date_created}}</td>
+                    <td>{{transaction.Agent_order_id.Agent}}</td>
+                    <td>{{transaction.TransactionCode}}</td>
+                    <td>{{transaction.Total_Amount}}</td>
+                    <td><span class="badge bg-success">Approved</span></td>
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="text-end">
+              <button id="download_excel" type="button" class="btn btn-secondary btn-sm">Excel</button>
+              <button id="download_pdf" onclick="pdfDownload()" type="button"
+                class="btn btn-secondary btn-sm">Pdf</button>
+            </div>
+            <br>
+            <br>
+          </div>
+{% endblock %}

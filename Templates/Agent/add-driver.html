@@ -1,0 +1,156 @@
+{% extends 'Agent/agent-base.html' %}
+{% block content %}
+
+<!-- ====== Main -->
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Manage Drivers</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'agent_dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">Add driver</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  {% if messages %}
+  {% for mess in messages %}
+  {% if mess.tags in "error" %}
+  <div class="alert alert-danger" role="alert">
+    {{mess}}
+  </div>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+  <section class="section add-agent">
+    <div class="row">
+      <div class="row justify-content-center">
+        <div class="col-lg-12 d-flex flex-column align-items-center justify-content-center">
+          <div class="card mb-5">
+            <div class="card-body">
+              <h5 class="card-title text-center pb-0 fs-4">Driver Registration Form</h5>
+              <br>
+              <br>
+              <form class="row g-3 needs-validation" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="row border p-3 m-2">
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label for="fn" class="form-label">First Name</label>
+                    <input type="text" name="first_name" class="form-control" id="fn"  required oninput="number_init(this.id)" value="{{first_name}}">
+                    <div class="invalid-feedback">Please enter firm name!</div>
+                    <p id="pfn" hidden></p>
+                  </div>
+
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label for="ln" class="form-label">Last Name</label>
+                    <input type="text" name="last_name" class="form-control" id="ln" value="{{last_name}}" required
+                      oninput="number_init(this.id)">
+                    <div class="invalid-feedback">Please provide owner's name!</div>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" id="email" required value="{{email}}">
+                    <div class="invalid-feedback">Please enter a valid Email adddress!</div>
+                  </div>
+
+
+                  
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label for="un" class="form-label">Username</label>
+                    <div class="input-group has-validation">
+                      <span class="input-group-text" id="un">@</span>
+                      <input type="text" class="form-control" id="un"
+                        aria-describedby="inputGroupPrepend" name="username" required>
+                        <div class="invalid-feedback">please ,enter username!</div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label for="password1" class="form-label">Password</label>
+                    <input type="password" name="password1" class="form-control" id="password1" value="{{password1}}" required>
+                    <div class="invalid-feedback">Please enter password!</div>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label for="password2" class="form-label">Confirm Password</label>
+                    <input type="password" name="password2" class="form-control" id="password2" required>
+                    <div class="invalid-feedback">Please confirm password!</div>
+                  </div>
+
+
+                </div>
+
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="validationCustomUsername" class="form-label">Phone</label>
+                  <div class="input-group has-validation">
+                    <span class="input-group-text" id="inputGroupPrepend">+251</span>
+                    <input type="text" name="phone" class="form-control" id="validationCustomUsername"
+                      aria-describedby="inputGroupPrepend" required>
+
+                  </div>
+                </div>
+
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="photo" class="form-label">Profile_Pic</label>
+                  <input type="file" name="photo" class="form-control" id="driverPhoto" required>
+                  <div class="invalid-feedback">Please upload photo!</div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="photo" class="form-label">Salary</label>
+                  <input type="text" name="salary" class="form-control" id="photo" required>
+                  <div class="invalid-feedback">Please enter Salary!</div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="plate" class="form-label">Diver's Licence</label>
+                  <input type="file" name="licence" class="form-control" id="licence" required>
+                  <div class="invalid-feedback">Please upload licence!</div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="driver role" class="form-label">Vihecle</label>
+                  <select class="form-select" name="vechile" id="driver_role">
+                    {% for vihecle in all_vechil %}
+                      {% if vihecle.status == False %}
+                    <option value="{{vihecle.vichel_No}}">{{vihecle.vichel_No}}</option>
+                   {% endif %} {% endfor %}
+                  </select>
+                </div>
+
+
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="Vehicle role" class="form-label">Vehicle Role</label>
+                  <select class="form-select" name="car_type" id="vehicle_role">
+                    <option value="on_duty">On duity</option>
+                    <option value="on_garage">On garage</option>
+                    <option value="on_wating">On wating</option>
+
+                  </select>
+                </div>
+
+
+
+
+                <hr class="mb-4">
+                <div class="d-grid col-12 ">
+                  <button id="add_driver" class="btn btn-warning w-100 text-white" type="submit">Add</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'Company/company-base.html'%}
+{% block content%}
+<main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Regions Detail</h1>
+      <nav>
+        
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'admin-dashbord' %}">Home</a></li>
+          <li class="breadcrumb-item "><a href="{% url 'view-region' %}">Manage regions</a></li>
+          <li class="breadcrumb-item active">Regions Detail</li>
+        </ol>
+        
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="card">
+
+               
+
+                <div class="card-body">
+                  <h5 class="card-title">Region Detail</h5>
+                  <p class="card-text">Region Name: {{region.Region_Name}}</p>
+                  <p class="card-text">Location: {{region.Location}}</p>
+                  <p class="card-text">Agents:-</p>
+                  
+                    <ol>
+                        {% for agent in all_Agent %}
+                        <li>{{agent.Full_Name}}</li>
+                        {% endfor %}
+                    </ol>
+                  <p class="card-text">Total Agent: {{Total_Agent}}</p>
+                  <p class="card-text">Total Customer: {{Total_Customer}}</p>
+                  <p class="card-text">Date Created: {{region.date_created}}</p>
+
+                
+                  </div>
+              </div><!-- End Card with an image on bottom -->
+           </div>
+           <div class="col-lg-8 col-md-8 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Coverage Area</h5>
+                  {% if region.coverArea %}
+                  <div class="text-center">
+                    {{region.coverArea|safe}}
+                  </div>
+                    
+                  {% endif %}
+                </div>
+                
+              </div><!-- End Card with an image on bottom -->
+           </div>
+        </div>
+    </section>
+    </main>
+
+
+
+{% endblock %}

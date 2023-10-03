@@ -1,0 +1,100 @@
+{% extends 'Company/company-base.html'%}
+
+{% block content%}
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Advertisments</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'admin-dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">New Post Advertisment</li>
+      </ol>
+    </nav>
+
+  </div><!-- End Page Title -->
+
+  <section class="section add-agent">
+    <div class="row">
+      <div class="row justify-content-center">
+        <div class="col-lg-6 d-flex flex-column align-items-center justify-content-center">
+          <div class="card mb-5">
+            <div class="card-body">
+              <h5 class="card-title text-center pb-0 fs-4">{{adds.product_name}} - Advertisment</h5>
+              <form class="row g-3 needs-validation" novalidate action="{% url 'post_advertisment' %}" method="POST"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <label for="product_name" class="form-label">Product name</label>
+                  <input type="text" name="product_name" id="product_name" class="form-control"
+                    value="{{adds.product_name}}" required>
+                  <div class="invalid-feedback">Please enter product name!</div>
+                </div>
+
+
+                <div class="col-md-12">
+                  <textarea class="form-control" name="description" id="description" rows="6"
+                    required>{{adds.description}}</textarea>
+                </div>
+
+
+
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <label for="product image" class="col-md-4 col-lg-3 col-form-label">Product Image</label>
+                  <div class="col-md-8 col-lg-9">
+                    {% if adds.product_photo %}
+                    <img src="{{adds.product_photo.url}}" width="100" alt="">
+                    {% endif %}
+                    <div class="p-3">
+                      <a href="#" class="btn btn-primary btn-sm" title="Upload new product image"><i
+                          class="bi bi-upload"></i></a>
+                      <a href="#" class="btn btn-danger btn-sm" title="Upload new product image"><i
+                          class="bi bi-upload"></i></a>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
+                <hr class="mb-4">
+                <div class="col-6">
+                  <button id="add_driver" class="btn btn-warning w-100" type="submit">Update Post</button>
+                </div>
+                <div class="col-6">
+                  <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                    data-bs-target="#verticalycentered">
+                    Delete
+                  </button>
+                </div>
+                <div class="modal fade" id="verticalycentered" tabindex="-1">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">{{adds.product_name}} - Advertisment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        Are you sure to delete {{adds.product_name}} - Advertisment ?
+                      </div>
+                      <div class="modal-footer">
+                        <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
+                        <a href="{% url 'delete_adds_post' adds.id %}" class="btn btn-danger">Ok</a>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- End Vertically centered Modal-->
+
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+{% endblock %}

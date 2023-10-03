@@ -1,0 +1,76 @@
+{% extends 'Agent/driver.html' %}
+{% block content %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Order Detail</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'draiver_page' %}">Home</a></li>
+                <li class="breadcrumb-item active">Order Detail</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row">
+            
+            <div class="col-lg-8 col-md-12 col-sm-12 pl-3 ml-3">
+                <div class="row">
+                    <!-- transaction details -->
+                    <!-- End transaction details -->
+                    <div class="card info-card">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Order Information</h5>
+                            <hr class="mb-4">
+                            <table class="table table-border">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Product</th>  
+                                        <th scope="col">quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in data %}
+                                    <tr>
+                                        {% for cell in row %}
+                                        <th>{{cell}}</th>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <th scope="col">Total Quantity</th>
+                                        <th scope="col">{{total_quantity}}</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h5 class="card-title text-center">Payment Information</h5>
+                            <hr class="mb-4">
+                            <div>
+                                <span class="card-title">Order ID: </span>
+                                <span id="order_id" class="text-muted">{{transaction.TransactionCode}}</span>
+                            </div>
+                            <div>
+                                <span class="card-title">Payment: </span>
+                                <span id="payment_type" class="text-muted">YenePay</span>
+                            </div>
+                            <div>
+                                <span class="card-title">Total Paid </span>
+                                <strong id="total_paid" class="text-muted">{{transaction.Total_Amount }}</strong>
+                            </div>
+                            <div>
+                                <span class="card-title">Approval status: </span>
+                                <span id="approval_status"
+                                    class="text-muted">{{transaction.Customer_order_id.status}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ffwweweweewf -->
+                </div>
+            </div>
+          
+        </div>
+    </section>
+</main>
+{% endblock %}

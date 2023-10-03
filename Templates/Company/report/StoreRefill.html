@@ -1,0 +1,31 @@
+{% extends 'Company/report/generate-report.html'%}
+{% block ReportTable%}
+<div class="col">
+    <div class="card recent-sales overflow-auto">
+      <div class="card-body">
+        <h4 class="card-title">Store Refill Report</h4>
+        <table id="report_table" class="table table-border datatable">
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Store</th>
+              <th scope="col">Product</th>
+              <th scope="col">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for all_in_store in RecentRefill %} 
+            <tr>
+              <td>{{all_in_store.date_created}}</td>
+              <td>{{all_in_store.Store}}</td>
+              <td>{{all_in_store.product}}</td>
+              <td>{{all_in_store.qunitiy}}</td>
+            </tr>
+             {% endfor %}
+          
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- End transaction Sales -->
+{% endblock %}

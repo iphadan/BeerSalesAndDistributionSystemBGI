@@ -1,0 +1,206 @@
+{% extends 'Agent/agent-base.html' %}
+{% block content %}
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Manage Customers</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'agent_dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">Customer Profile</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section profile">
+    <div class="row">
+      <div class="col-xl-4">
+
+        <div class="card">
+          <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+            {% if customer.profile_pic %}
+            <img src="{{ customer.profile_pic.url}}" alt="Profile" class="rounded-circle">
+            {% endif %}
+            <h2>{{customer.user.username}}</h2>
+            {% if customer.Compan_name %}
+            <h3>{{customer.Compan_name}}</h3>
+            {% endif %}
+            <!-- it would be good to have social media link -->
+            <!-- <div class="social-links mt-2">
+              <a href="#" class="twitter">{{customer.facebook}}<i class="bi bi-twitter"></i></a>
+              <a href="#" class="facebook">{{customer.facebook}}<i class="bi bi-facebook"></i></a>
+              <a href="#" class="instagram">{{customer.facebook}}<i class="bi bi-instagram"></i></a>
+             
+            </div> -->
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-xl-8">
+
+        <div class="card">
+          <div class="card-body pt-3">
+            <!-- Bordered Tabs -->
+            <ul class="nav nav-tabs nav-tabs-bordered">
+
+              <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab"
+                  data-bs-target="#profile-overview">Overview</button>
+              </li>
+
+
+
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change
+                  Password</button>
+              </li>
+
+            </ul>
+            <div class="tab-content pt-2">
+
+              <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                <!-- {% if customer.License %}
+                 <h5 class="card-title">License</h5><img id="license" src="{{ customer.License.url}}" alt="license file"
+                  hidden>
+                  {% endif %} -->
+                <!-- <div> <button onclick="show_license()" id="license_btn">Click here to see license</button></div> -->
+
+                <h5 class="card-title">Profile Details</h5>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                  <div class="col-lg-9 col-md-8">{{customer.user.first_name}} {{customer.user.last_name}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Company</div>
+                  <div class="col-lg-9 col-md-8">{{customer.Compan_name}}</div>
+                </div>
+
+
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Country</div>
+                  <div class="col-lg-9 col-md-8">Ethiopia ,{{customer.Adderes}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Address</div>
+                  <div class="col-lg-9 col-md-8">{{customer.Adderes}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Phone1</div>
+                  <div class="col-lg-9 col-md-8">{{customer.phone1}}</div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Phone2</div>
+                  <div class="col-lg-9 col-md-8">{{customer.phone2}}</div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Email</div>
+                  <div class="col-lg-9 col-md-8">{{customer.user.email}}</div>
+                </div>
+
+              </div>
+
+
+              <div class="tab-pane fade pt-3" id="profile-change-password">
+                <!-- Change Password Form -->
+                <form action="{% url 'cust_change_password' customer.id %}" method="post">
+                  {% csrf_token %}
+
+                  <div class="row mb-3">
+                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="password" type="password" class="form-control" id="currentPassword">
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="newpassword" type="password" class="form-control" id="newPassword">
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                    </div>
+                  </div>
+
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                  </div>
+                </form><!-- End Change Password Form -->
+
+              </div>
+
+            </div><!-- End Bordered Tabs -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card recent-sales overflow-auto">
+      <div class="card-body">
+        <h5 class="card-title">{{customer.user.first_name}} {{customer.user.last_name}}</h5>
+        
+        <!-- Table with stripped rows -->
+        <table class="table datatable">
+          <thead>
+            <tr>
+              
+              <th scope="col">Name</th>
+              <th scope="col">Order Code</th>
+              <th scope="col">Total Paid</th>
+              <th scope="col">Delivery_Status</th>
+              <th scope="col">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for trans in all_transaction %}
+            <tr>
+             
+              <th scope="row">{{trans.Customer_order_id.Customer}}</th>
+              <td>{{trans.TransactionCode}}</td>
+              <td>{{trans.Total_Amount}}</td>
+              {% if trans.Customer_order_id.status == 'Pending'  %}
+              <td><span class="badge bg-warning">{{trans.Customer_order_id.status}}</span></td>
+              {% elif trans.Customer_order_id.status == 'Delivered' %}
+              <td><span class="badge bg-success">{{trans.Customer_order_id.status}}</span></td>
+              {% elif trans.Customer_order_id.status == 'Not Recived' %}
+              <td><span class="badge bg-red">{{trans.Customer_order_id.status}}</span></td>
+               {% endif %}
+              <td>{{trans.date_created}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <!-- End Table with stripped rows -->
+
+      </div>
+    </div>
+
+
+  </section>
+
+</main><!-- End #main -->
+<!-- <script>
+
+  function show_license() {
+
+    document.getElementById('license').removeAttribute('hidden');
+    document.getElementById('license_btn').innerText = 'close license file'
+  }
+
+</script> -->
+
+{% endblock %}

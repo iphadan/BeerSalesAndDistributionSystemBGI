@@ -1,0 +1,60 @@
+{% extends 'Company/company-base.html'%}
+{% block content%}
+{% load static %}
+
+
+
+
+
+
+
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Manage products</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'admin-dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">Add products</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-8">  
+        <div class="card">
+          <div class="card-body">
+            <div class="pt-3">
+    <!-- Profile Edit Form -->
+    
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="row mb-3">
+
+        <div class="col-lg-3">
+          <!-- Card with an image on bottom -->
+          <div class="card">
+            <div class="card-body">
+              
+        
+            </div>
+            {% if product.img %}
+            <img src="{{product.img.url}}" class="card-img-bottom" alt="...">{% endif %}
+          </div><!-- End Card with an image on bottom -->
+          <input type="file" class="btn btn-primary btn-sm " name="pic" >
+          <button type="submit" class="btn btn-warning m-2">Update</button>
+        </div>
+      </div>
+        
+    </form>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </section>
+    <!-- End Profile Edit Form -->
+  
+
+  
+  {% endblock  %}

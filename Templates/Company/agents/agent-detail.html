@@ -1,0 +1,185 @@
+{% extends 'Company/company-base.html' %}
+{% load static %}
+{% block content%}
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Manage Agents</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'admin-dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">Agent Profile</li>
+      </ol>
+
+
+    </nav>
+
+  </div><!-- End Page Title -->
+
+  <section class="section profile">
+    <div class="row">
+      <div class="col-xl-4">
+
+        <div class="card">
+          <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+            {% if agent.profile_pic %}
+            <img src="{{agent.profile_pic.url}}" alt="agent">
+            {% endif %}
+            <h2>{{agent.Full_Name}}</h2>
+            <hr>
+            <p>Rating
+              <span class="ri-star-fill"></span>
+              <span class="ri-star-fill"></span>
+              <span class="ri-star-fill"></span>
+              <span class="ri-star-half-fill"></span>
+              <span class="ri-star-line"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-8">
+        <div class="card">
+          <div class="card-body pt-3">
+
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <a class="nav-link " aria-current="page" href="{% url 'agent-detail' agent.id %}">Agent Detail</a>
+              </li>
+              <li class="nav-item">
+
+                <a class="nav-link" href="{% url 'update_contrat' agent.id %}">Update Contract</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'remove_agent_page' agent.id %}">Remove Agent</a>
+              </li>
+
+            </ul>
+            <!-- Bordered Tabs -->
+            <div class="tab-content pt-2">
+              {% block agent_detile %}
+              <div class="tab-pane fade show active profile-overview" id="profile-overview">
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                  <div class="col-lg-9 col-md-8">{{agent.Full_Name}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Email</div>
+                  <div class="col-lg-9 col-md-8">{{agent.user.email}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Phone</div>
+                  <div class="col-lg-9 col-md-8">{{agent.phone1}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Region</div>
+                  <div class="col-lg-9 col-md-8">{{agent.Region}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">City</div>
+                  <div class="col-lg-9 col-md-8">{{agent.city}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">TIN Number</div>
+                  <div class="col-lg-9 col-md-8">{{agent.TIN_NO}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">MarchentId</div>
+                  <div class="col-lg-9 col-md-8">{{agent.marchentId}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Agreement</div>
+
+                  <div class="col-lg-9 col-md-8">
+
+                    <a href="{{agent.agreement.url}}" class="text-dark">Agreement Paper</a>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label ">License</div>
+                  <div class="col-lg-9 col-md-8 ">
+                    <a href="{{agent.License.url}}" class="text-dark">License Paper</a>
+                  </div>
+                </div>
+              </div>
+
+              {% endblock %}
+            </div><!-- End Bordered Tabs -->
+          </div>
+        </div>
+      </div>
+
+        </div>
+    
+        <div class="col-12">
+          <div class="card recent-sales overflow-auto">
+            {% block admin %}
+
+           
+
+
+            <div class="card-body">
+              <h5 class="card-title">{{agent.Full_Name}}</h5>
+              <!-- Table with stripped rows -->
+              <table id="transaction_table" class="table table-border datatable">
+                <thead>
+                  <tr>
+              
+                    <th scope="col">Date</th>
+                    <th scope="col">Order Code</th>
+                    <th scope="col">Total paid</th>
+                    <th scope="col">Marchent Id</th>
+                    <th scope="col">Payment</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Schedule</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  {% for transaction in all_transaction %}
+                  <tr>
+                    
+                    <td><a href="{% url 'transaction-detail' transaction.id %}">{{transaction.date_created}}</a></td>
+                    <td>{{transaction.TransactionCode}}</td>
+                    <td>{{transaction.Total_Amount}}</td>
+                    <td>{{transaction.MarchentId}}</td>
+                    <td>{{transaction.Paid_status}}</td>
+                    {% if transaction.Agent_order_id.status == 'Pending' %}
+                    <td><span class="badge bg-warning">Pending</span></td>
+                    {% elif transaction.Agent_order_id.status == 'Approved' %}
+                    <td><span class="badge bg-primary">Approved</span></td>
+                    {% elif transaction.Agent_order_id.status == 'Recived' %}
+                    <td><span class="badge bg-success">Recived</span></td>
+                    {% elif transaction.Agent_order_id.status == 'Reject' %}
+                    <td><span class="badge bg-danger">Rejected</span></td>
+                    {% endif %}
+                    {% if transaction.scheduled_for and transaction.scheduled_to %}
+                    <td> {{transaction.scheduled_for|date:"d-m-Y"}} - {{transaction.scheduled_to|date:"d-m-Y"}}</td>
+                    {% else %}
+                    <td><span class="badge bg-warning">Unscheduled</span></td>
+                    {% endif %}
+                  </tr>
+
+                  {% endfor %}
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
+            </div>
+            {% endblock %}
+          </div>
+        </div>
+
+    
+  </section>
+
+</main>
+
+{% endblock %}
